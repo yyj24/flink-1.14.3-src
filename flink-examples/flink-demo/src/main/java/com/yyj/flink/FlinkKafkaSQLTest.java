@@ -1,10 +1,7 @@
 package com.yyj.flink;
 
-import com.yyj.kafka.KafkaProps;
-import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.table.data.RowData;
 
 public class FlinkKafkaSQLTest {
     public static void main(String[] args) throws Exception {
@@ -25,8 +22,7 @@ public class FlinkKafkaSQLTest {
         tEnv.executeSql(createTable);
 
         String query = "select * from tb_user";
-        DataStream<RowData> result = tEnv.toAppendStream(tEnv.sqlQuery(query), RowData.class);
-        result.print();
+        tEnv.toDataStream(tEnv.sqlQuery(query)).print();
 
         env.execute("FlinkKafkaSQLTest");
     }
